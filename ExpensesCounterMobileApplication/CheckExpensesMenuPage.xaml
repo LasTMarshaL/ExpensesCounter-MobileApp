@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- The first 2 strings are basic namespaces for MAUI -->
+<!-- x:Class - Connect class CheckExpensesMenuPage with this XAML page -->
+<!-- Shell.NavBarIsVisible="False" - Hide the name of the main page -->
+<!-- BackgroundColor - color of the background -->
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ExpensesCounterMobileApplication.CheckExpensesMenuPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="Black">
+
+    <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+    <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+    <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+    <VerticalStackLayout
+        Padding="30"
+        Spacing="20">
+
+        <!-- Label prints text -->
+        <!-- Text - printed text -->
+        <!-- TextColor - color of the text-->
+        <!-- HorizontalOptions="Center" aligns the element to the center -->
+        <Label
+            x:Name="TotalExpensesSum"
+            Text="..."
+            TextColor="Purple"
+            HorizontalOptions="Center"/>
+
+        <!-- Button - interactive button -->
+        <!-- Text - text on the button -->
+        <!-- Clicked - name of the method, which is used after click on button -->
+        <!-- HorizontalOptions="Fill" stretch the button to full width of the page -->
+        <Button
+            Text="Check categories" 
+            Clicked="CheckCategoriesButtonClicked"
+            HorizontalOptions="Fill" />
+
+        <!-- Button - interactive button -->
+        <!-- Text - text on the button -->
+        <!-- Clicked - name of the method, which is used after click on button -->
+        <!-- HorizontalOptions="Fill" stretch the button to full width of the page -->
+        <Button
+            Text="Check history" 
+            Clicked="CheckHistoryButtonClicked"
+            HorizontalOptions="Fill" />
+
+        <!-- Button - interactive button -->
+        <!-- Text - text on button -->
+        <!-- Clicked - name of the method, which is used after click on button -->
+        <!-- HorizontalOptions="Fill" stretch the button to full width of the page -->
+        <Button
+            Text="Back" 
+            Clicked="GoBackButtonClicked"
+            HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>

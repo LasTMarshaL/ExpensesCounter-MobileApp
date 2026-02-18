@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- The first 2 strings are basic namespaces for MAUI -->
+<!-- x:Class - Connect class CheckExpensesHistoryPage with this XAML page -->
+<!-- Shell.NavBarIsVisible="False" - Hide the name of the main page -->
+<!-- BackgroundColor - color of the background -->
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ExpensesCounterMobileApplication"  
+    x:Class="ExpensesCounterMobileApplication.CheckExpensesHistoryPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="Black">
+
+    <!-- AbsoluteLayout allows you to place elements independently of the environment structure-->
+    <AbsoluteLayout>
+
+        <!-- Grid creates a grid and allows to set elements on rows and colomns -->
+        <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+        <!-- AbsoluteLayout.LayoutBounds - set the bounds of the absolute layout (in this case it is all space), (X, Y, Width, Height - coordinate and size system) -->
+        <!-- VerticalOptions="Fill" + HorizontalOptions="Fill" - take all avalile place on the page -->
+        <!-- AbsoluteLayout.LayoutFlags="All" makes system count coordinates and size proportionally (from 0 to 1 instead of pixels) -->
+        <Grid
+            Padding="20"
+            RowDefinitions="Auto,*,Auto"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+
+            <!-- Label prints text -->
+            <!-- Crid.Row - number of row -->
+            <!-- Text - printed text -->
+            <!-- FontSize - size of the font -->
+            <!-- HorizontalOptions="Center" aligns the element to the center -->
+            <!-- TextColor - color of the text -->
+            <Label
+                Grid.Row="0"
+                Text="All expenses"
+                FontSize="30"
+                HorizontalOptions="Center"
+                TextColor="Purple"/>
+
+            <!-- CollectionView ItemsSource="{Binding X} shows data from X -->
+            <!-- Crid.Row - number of row -->
+            <CollectionView
+                Grid.Row="1"
+                ItemsSource="{Binding NeededExpensesList}">
+
+                <!-- ItemTemplate specifies how each list item will look -->
+                <CollectionView.ItemTemplate>
+
+                    <!-- <DataTemplate> — a data template for a single item -->
+                    <!-- x:DataType" — specifies the object type so that bindings are compiled within the DataTemplate -->
+                    <DataTemplate
+                        x:DataType="local:Expense">
+
+                        <!-- Grid creates a grid and allows to set elements on rows and colomns -->
+                        <!-- ColumnDefinitions creates colomns -->
+                        <Grid
+                            ColumnDefinitions="*,*">
+
+                            <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                            <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                            <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                            <VerticalStackLayout
+                                Padding="15"
+                                Spacing="10">
+
+                                <!-- Label Text="{Binding X}" shows the text takes the path from the X property -->
+                                <!-- TextColor - color of the text -->
+                                <Label
+                                    Text="{Binding Category, StringFormat='Category: {0}'}"
+                                    TextColor="Purple"/>
+                               
+                                <!-- Label Text="{Binding X}" shows the text takes the path from the X property -->
+                                <!-- TextColor - color of the text -->
+                                <Label
+                                    Text="{Binding Price, StringFormat='Money spent: {0:F2}'}"
+                                    TextColor="Purple"/>
+
+                                <!-- Label Text="{Binding X}" shows the text takes the path from the X property -->
+                                <!-- TextColor - color of the text -->
+                                <Label
+                                    Text="{Binding DateAndTime, StringFormat='Date and time: {0:dd.MM.yyyy HH:mm}'}"
+                                    TextColor="Purple"/>
+
+                                <!-- Label Text="{Binding X}" shows the text takes the path from the X property -->
+                                <!-- TextColor - color of the text -->
+                                <Label
+                                    Text="{Binding Comment, StringFormat='Comment: {0}'}"
+                                    TextColor="Purple"/>
+
+                                <!-- Button - interactive button -->
+                                <!-- Crid.Column - number of column -->
+                                <!-- Text - text on the button -->
+                                <!-- Clicked - name of the method, which is used after click on button -->
+                                <!-- HorizontalOptions - horizontal stretching of the button -->
+                                <Button
+                                    Grid.Column="1"
+                                    Text="Remove expense" 
+                                    Clicked="RemoveExpenseButtonClicked"
+                                    HorizontalOptions="Fill" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Button - interactive button -->
+            <!-- Crid.Row - number of row -->
+            <!-- Text - text on button -->
+            <!-- Clicked - name of the method, which is used after click on button -->
+            <!-- HorizontalOptions - stretches button across the width of the container -->
+            <Button
+                Grid.Row="2"
+                Text="Go back"
+                Clicked="GoBackButtonClicked"
+                HorizontalOptions="Fill" />
+
+
+            <!-- BoxViev - just rectangle filled with light -->
+            <!-- Crid.Row - number of row -->
+            <!-- Grid.RowSpan - stretche the element down some lines-->
+            <!-- x:Name - name to get acces to its properies in the code-->
+            <!-- Opacity="0" makes the box transparent -->
+            <!-- InputTransparent="True" makes the box not react to clikcs -->
+            <BoxView 
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                x:Name="BackgroundOverlay"
+                BackgroundColor="Black"
+                Opacity="0"
+                InputTransparent="True">
+
+                <!-- Make the box implement the method in "Tapped" if it is clecked -->
+                <!-- This box can become clickable due to user's actions -->
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CloseExtraMenuClickedOnBackground"/>
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+            <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+            <!-- Crid.Row - number of row -->
+            <!-- Margin - space from all sides (distance bettwen sides and borders, whereas Padding - distance between sides and elements) -->
+            <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+            <!-- HorizontalOptions="End" + VerticalOptions="Start" - set this stack to the right top corner-->
+            <VerticalStackLayout 
+                Grid.Row="1"
+                Margin="20" 
+                Spacing="10"
+                HorizontalOptions="End" 
+                VerticalOptions="Start" >
+
+                <!-- Button - interactive button -->
+                <!-- x:Name - name to get acces to its properies in the code -->
+                <!-- Text - text on the button -->
+                <!-- TextColor - color of the text on the button -->
+                <!-- Clicked - name of the method, which is used after click on button -->
+                <!-- HorizontalOptions="End" place horizontally to the right og the page -->
+                <!-- VerticalOptions="Start" place on top of page -->
+                <!-- AbsoluteLayout.LayoutBounds - set the bounds of the absolute layout (in this case it is right top corner with size 60*60), (X, Y, Width, Height - coordinate and size system) -->
+                <!-- AbsoluteLayout.LayoutFlags="PositionProportional" makes system count only coordinates proportionally (from 0 to 1 instead of pixels) -->
+                <!-- Margin - space from all sides (coordinate system "Left, Top, Right Bottom") -->
+                <!-- IsVisible - is the button visiable or not -->
+                <!-- HeightRequest - height of the button-->
+                <!-- WidthRequest - width of the button -->
+                <!-- CornerRadius - rounding corners of the button -->
+                <!-- BckgroundColor - color of the button-->
+                <Button 
+                    x:Name="DopMenuButton"
+                    Text="+"
+                    TextColor="Purple"
+                    Clicked="OpenExtraMenuButtonClicked"
+                    HorizontalOptions="End" 
+                    VerticalOptions="Start"
+                    AbsoluteLayout.LayoutBounds="1,1,60,60" 
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    Margin="0, 20, 20, 0"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    CornerRadius="20"
+                    BackgroundColor="MediumPurple" />
+
+                <!-- Button - interactive button -->
+                <!-- x:Name - name to get acces to its properies in the code-->
+                <!-- Text - text on the button -->
+                <!-- Clicked - name of the method, which is used after click on button -->
+                <!-- FontSize - size of the font -->
+                <!-- IsVisible - is the button visiable or not -->
+                <!-- HeightRequest - height of the button-->
+                <!-- CornerRadius - rounding corners of the button -->
+                <Button
+                    x:Name="OpenFilterButton"
+                    Text="Filter"
+                    Clicked="OpenFilterButtonClicked"
+                    FontSize="12"
+                    IsVisible="False"
+                    HeightRequest="40"
+                    CornerRadius="20" />
+
+                <!-- Button - interactive button -->
+                <!-- x:Name - name to get acces to its properies in the code -->
+                <!-- Text - text on the button -->
+                <!-- Clicked - name of the method, which is used after click on button -->
+                <!-- FontSize - size of the font -->
+                <!-- IsVisible - is the button visiable or not -->
+                <!-- HeightRequest - height of the button-->
+                <!-- CornerRadius - rounding corners of the button -->
+                <Button
+                    x:Name="ResetFiltersButton"
+                    Text="Reset filters"
+                    Clicked="ResetFiltersButtonClicked"
+                    FontSize="12"
+                    IsVisible="False"
+                    HeightRequest="40"
+                    CornerRadius="20" />
+
+                <!-- Button - interactive button -->
+                <!-- x:Name - name to get acces to its properies in the code -->
+                <!-- Text - text on the button -->
+                <!-- Clicked - name of the method, which is used after click on button -->
+                <!-- FontSize - size of the font -->
+                <!-- IsVisible - is the button visiable or not -->
+                <!-- HeightRequest - height of the button-->
+                <!-- CornerRadius - rounding corners of the button -->
+                <Button
+                    x:Name="RemoveAllButton"
+                    Text="Remove All"
+                    Clicked="RemoveAllExpensesButtonClicked"
+                    FontSize="12"
+                    IsVisible="False"
+                    HeightRequest="40"
+                    CornerRadius="20" />
+            </VerticalStackLayout>
+
+            <!-- Border - separated container with elements -->
+            <!-- Crid.Row - number of row -->
+            <!-- x:Name - name to get acces to its properies in the code -->
+            <!-- IsVisible - is the border visiable or not -->
+            <!-- VerticalOptions="Center" sets the border at the center of the page -->
+            <!-- HorizontalOptions="Fill" stretch the button to full width of the page -->
+            <!-- BackgroundColor - color of the background of the border -->
+            <!-- Padding - space between the elements of the border -->
+            <!-- StrokeShape="RoundRectangle X" - rounded rectangle with radius X -->
+            <Border
+                Grid.Row="1"
+                x:Name="Filter"
+                IsVisible="False"
+                VerticalOptions="Center"
+                HorizontalOptions="Fill"
+                BackgroundColor="Black"
+                Padding="20"
+                StrokeShape="RoundRectangle 15">
+
+                <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                <VerticalStackLayout
+                    Padding="15"
+                    Spacing="20">
+
+                    <!-- Label prints text -->
+                    <!-- Text - printed text -->
+                    <!-- FontSize - size of the font -->
+                    <!-- TextColor - color of the text -->
+                    <Label
+                        Text="Filter by price"
+                        FontSize="20"
+                        TextColor="Purple"/>
+
+                    <!-- HorizontalStackLayout is a horizontal stack (Layout) that arranges elements from left to right -->
+                    <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                    <!-- Spacing - the distance between nested elements within a HorizontalStackLayout -->
+                    <HorizontalStackLayout
+                        Padding="15"
+                        Spacing="15">
+
+                        <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                        <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                        <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                        <VerticalStackLayout
+                            Padding="15"
+                            Spacing="15">
+
+                            <!-- Label prints text -->
+                            <!-- Text - printed text -->
+                            <!-- FontSize - size of the font -->
+                            <!-- TextColor - color of the text -->
+                            <Label 
+                                Text="Lowest Price:"
+                                FontSize="20"
+                                TextColor="Purple"/>
+
+                            <!-- Entery is used to get input from user -->
+                            <!-- x:Name - name to get acces to its properies in the code -->
+                            <!-- Keyboard="Numeric" shows keaboard with only numbers -->
+                            <!-- TextColor - color of the input text -->
+                            <!-- Background - color of the background of the input field -->
+                            <Entry 
+                                x:Name="EnteredLowestPrice"
+                                Text="{Binding PriceFilterProperty.PriceFrom}"
+                                Keyboard="Numeric"
+                                TextColor="White"
+                                Background="Purple"/>
+                        </VerticalStackLayout>
+
+                        <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                        <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                        <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                        <VerticalStackLayout
+                            Padding="15"
+                            Spacing="15">
+
+                            <!-- Label prints text -->
+                            <!-- Text - printed text -->
+                            <!-- FontSize - size of the font -->
+                            <!-- TextColor sets color of the text -->
+                            <Label 
+                                Text="Hightest Price:"
+                                FontSize="20"
+                                TextColor="Purple"/>
+
+                            <!-- Entery is used to get input from user -->
+                            <!-- x:Name - name to get acces to its properies in the code -->
+                            <!-- Keyboard="Numeric" shows keaboard with only numbers -->
+                            <!-- TextColor - color of the input text -->
+                            <!-- Background - color of the background of the input field -->
+                            <Entry 
+                                x:Name="EnteredHghestPrice"
+                                Text="{Binding PriceFilterProperty.PriceTo}"
+                                Keyboard="Numeric"
+                                TextColor="White"
+                                Background="Purple"/>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+
+                    <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                    <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                    <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                    <VerticalStackLayout
+                        Padding="15"
+                        Spacing="20">
+
+                        <!-- Label prints text -->
+                        <!-- Text - printed text -->
+                        <!-- FontSize - size of the font -->
+                        <!-- TextColor - color of the text -->
+                        <Label
+                            Text="Filter by date and time"
+                            FontSize="20"
+                            TextColor="Purple"/>
+
+                        <!-- HorizontalStackLayout is a horizontal stack (Layout) that arranges elements from left to right-->
+                        <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                        <!-- Spacing - the distance between nested elements within a HorizontalStackLayout -->
+                        <HorizontalStackLayout
+                            Padding="15"
+                            Spacing="15">
+
+                            <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                            <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                            <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                            <VerticalStackLayout
+                                Padding="15"
+                                Spacing="15">
+
+                                <!-- Label prints text -->
+                                <!-- Text - printed text -->
+                                <!-- FontSize - size of the font -->
+                                <!-- TextColor - color of the text -->
+                                <Label 
+                                    Text="From:"
+                                    FontSize="20"
+                                    TextColor="Purple"/>
+
+                                <!-- DatePicker allows to choose date -->
+                                <!-- x:Name - name to get acces to its properies in the code -->
+                                <!-- Date - intial earliest date and time -->
+                                <!-- Background - color of the backgroud -->
+                                <DatePicker
+                                    x:Name="EarliestDate"
+                                    Date="{Binding DateAndTimeFilterProperty.DateFrom.Date}"
+                                    Background="Purple"/>
+
+                                <!-- TimePicker allows to choose time -->
+                                <!-- x:Name - name to get acces to its properies in the code -->
+                                <!-- Background - color of the backgroud -->
+                                <TimePicker 
+                                    x:Name="EarliestTime"
+                                    Time="{Binding DateAndTimeFilterProperty.TimeFrom}"
+                                    Background="Purple"/>
+                            </VerticalStackLayout>
+
+                            <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                            <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                            <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                            <VerticalStackLayout
+                                Padding="15"
+                                Spacing="15">
+
+                                <!-- Label prints text -->
+                                <!-- Text - printed text -->
+                                <!-- FontSize - size of the font -->
+                                <!-- TextColor - color of the text -->
+                                <Label 
+                                    Text="To:"
+                                    FontSize="20"
+                                    TextColor="Purple"/>
+
+                                <!-- DatePicker allows to choose date -->
+                                <!-- x:Name - name to get acces to its properies in the code -->
+                                <!-- Date - intial latest date and time-->
+                                <!-- Background - color of the backgroud -->
+                                <DatePicker
+                                    x:Name="LatestDate"
+                                    Date="{Binding DateAndTimeFilterProperty.DateTo}"
+                                    Background="Purple"/>
+
+                                <!-- TimePicker allows to choose time -->
+                                <!-- x:Name - name to get acces to its properies in the code -->
+                                <!-- Background - color of the backgroud -->
+                                <TimePicker 
+                                    x:Name="LatestTime"
+                                    Time="{Binding DateAndTimeFilterProperty.TimeTo}"
+                                    Background="Purple"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <!-- Button - interactive button -->
+                        <!-- Text - text on the button -->
+                        <!-- Clicked - name of the method, which is used after click on button -->
+                        <!-- FontSize - size of the font -->
+                        <!-- HeightRequest - height of the button-->
+                        <!-- CornerRadius - rounding corners of the button -->
+                        <Button
+                        Text="Filter"
+                        Clicked="FilterButtonClicked"
+                        FontSize="20"
+                        HeightRequest="40"
+                        CornerRadius="20" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </AbsoluteLayout>
+</ContentPage>
+

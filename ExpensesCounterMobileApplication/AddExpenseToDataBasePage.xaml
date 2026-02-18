@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- The first 2 strings are basic namespaces for MAUI -->
+<!-- x:Class - Connect class AddExpenseToDataBasePage with this XAML page -->
+<!-- Shell.NavBarIsVisible="False" - Hide the name of the main page -->
+<!-- BackgroundColor - color of the background -->
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ExpensesCounterMobileApplication.AddExpenseToDataBasePage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="Black">
+
+
+    <!-- Grid separates interface for row and colomns -->
+    <!-- RowDefinitions sets the number of rows -->
+    <!-- ColumnDefinitios sets the number of coloms -->
+    <Grid
+        RowDefinitions="*,Auto"
+        ColumnDefinitions="*">
+        
+        <!-- ScrolView adds vertical or horizontal scrolling.This is used to allow the interface to scroll when there are too many elements to fit on the screen.-->
+        <!-- Grid.Row - number of row -->
+        <ScrollView
+            Grid.Row="0">
+
+            <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+            <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+            <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+            <VerticalStackLayout 
+                Padding="20" 
+                Spacing="15">
+
+                <!-- Label prints text -->
+                <!-- Text - printed text -->
+                <!-- FontSize - size of th font -->
+                <!-- TextColor - color of the text -->
+                <Label 
+                    x:Name="Category"
+                    Text="Category: ..."
+                    FontSize="20"
+                    TextColor="Purple"/>
+
+                <!-- Label prints text -->
+                <!-- Text - printed text -->
+                <!-- FontSize - size of th font -->
+                <!-- TextColor - color of the text -->
+                <Label 
+                    Text="Price:"
+                    FontSize="20"
+                    TextColor="Purple"/>
+                
+                <!-- Entery is used to get input from user -->
+                <!-- x:Name - name to get acces to its properies in the code -->
+                <!-- Keyboard="Numeric" shows keaboard with only numbers -->
+                <!-- TextColor - color of the input text -->
+                <!-- Background - color of the background of the input field -->
+                <Entry 
+                    x:Name="EnteredPrice"
+                    Keyboard="Numeric"
+                    TextColor="White"
+                    Background="Purple"/>
+
+                <!-- Label prints text -->
+                <!-- Text - printed text -->
+                <!-- FontSize - size of th font -->
+                <!-- TextColor - color of the text -->
+                <Label 
+                    Text="Date and Time:"
+                    FontSize="20"
+                    TextColor="Purple"/>
+
+                <!-- HorizontalStackLayout is a horizontal stack (Layout) that arranges elements from right to left -->
+                <!-- Spacing - the distance between nested elements within a HorizontalStackLayout -->
+                <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                <HorizontalStackLayout
+                    Spacing="15"
+                    Padding="10">
+                    
+                    <!-- DatePicker allows to choose date -->
+                    <!-- x:Name - name to get acces to its properies in the code -->
+                    <!-- Background - color of the backgroud -->
+                    <DatePicker
+                        x:Name="DatePicker"
+                        Background="Purple"/>
+
+                    <!-- TimePicker allows to choose time -->
+                    <!-- x:Name - name to get acces to its properies in the code -->
+                    <!-- Background - color of the backgroud -->
+                    <TimePicker 
+                        x:Name="TimePicker"
+                        Background="Purple"/>
+                </HorizontalStackLayout>
+
+                <!-- Label prints text -->
+                <!-- Text - printed text -->
+                <!-- FontSize - size of th font -->
+                <!-- TextColor - color of the text -->
+                <Label 
+                    Text="Comment (optional):"
+                    FontSize="20"
+                    TextColor="Purple"/>
+                
+                <!-- Entery is used to get input from user -->
+                <!-- x:Name - name to get acces to its properies in the code -->
+                <!-- Keyboard="Numeric" shows keaboard with only numbers -->
+                <!-- TextColor - color of the input text -->
+                <!-- Background - color of the background of the input field -->
+                <Entry 
+                    x:Name="EnteredComment"
+                    MaxLength="100"
+                    TextColor="White"
+                    Background="Purple"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Grid separates interface for row and colomns -->
+        <!-- Grid.Row - number of row -->
+        <!-- RowDefinitions sets the number of rows -->
+        <!-- ColumnDefinitios sets the number of coloms -->
+        <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+        <Grid 
+            Grid.Row="1"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="20"
+            Padding="20">
+
+            <!-- Button - interactive button -->
+            <!-- Grid.Column - number of column -->
+            <!-- Text - text on the button -->
+            <!-- TextColor - color of the text on the button-->
+            <!-- Clicked - name of the method, which is used after click on button -->
+            <!-- FontSize - size of the font -->
+            <!-- HeightRequest - height of the button-->
+            <!-- CornerRadius - rounding corners of the button -->
+            <Button 
+                Grid.Column="0"
+                Text="Back"
+                TextColor="White"
+                Clicked="AddExpenseButtonClicked"
+                HeightRequest="50"
+                BackgroundColor="Purple"/>
+
+            <!-- Button - interactive button -->
+            <!-- Grid.Column - number of column -->
+            <!-- Text - text on the button -->
+            <!-- TextColor - color of the text on the button-->
+            <!-- Clicked - name of the method, which is used after click on button -->
+            <!-- FontSize - size of the font -->
+            <!-- HeightRequest - height of the button-->
+            <!-- CornerRadius - rounding corners of the button -->
+            <Button 
+                Grid.Column="1"
+                Text="Add Expense"
+                TextColor="White"
+                Clicked="AddExpenseButtonClicked"
+                HeightRequest="50"
+                BackgroundColor="Purple"/>
+        </Grid>
+    </Grid>
+</ContentPage>

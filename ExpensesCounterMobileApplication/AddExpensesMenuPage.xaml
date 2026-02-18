@@ -1,0 +1,97 @@
+<!-- The first 2 strings are basic namespaces for MAUI -->
+<!-- x:xmlns:local - coonnect namespace ExpensesCounterMobileApplication of to use other classes from this namespace, x:Class - Connect class AddExpensesMenuPage with this XAML page -->
+<!-- Shell.NavBarIsVisible="False" - Hide the name of the main page -->
+<!-- BackgroundColor - color of the background -->
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ExpensesCounterMobileApplication"  
+    x:Class="ExpensesCounterMobileApplication.AddExpensesMenuPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="Black">
+
+    <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+    <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+    <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+    <VerticalStackLayout
+        Padding="20"
+        Spacing="15">
+
+        <!-- Label prints text -->
+        <!-- FontSize - size of th font -->
+        <!-- HorizontalOptions="Center" aligns the element to the center -->
+        <!-- TextColor - color of the text -->
+        <Label
+            Text="Chouse expenses category"
+            FontSize="24"
+            TextColor="Purple"
+            HorizontalOptions="Center" />
+            
+        <!-- CollectionView ItemsSource="{Binding X} shows data from X -->
+        <CollectionView
+            ItemsSource="{Binding Categories}">
+            
+            <!-- ItemTemplate specifies how each list item will look -->
+            <CollectionView.ItemTemplate>
+
+                <!-- <DataTemplate> — a data template for a single item -->
+                <!-- x:DataType" — specifies the object type so that bindings are compiled within the DataTemplate -->
+                <DataTemplate
+                    x:DataType="local:ExpensesCategory">
+
+                    <!-- Border - border around the card (previously Frame was used) -->
+                    <!-- Storke - color of the border -->
+                    <!-- StrokeThickness - border thickness -->
+                    <!-- Padding internal paddings inside border -->
+                    <!-- StrokeShape="RoundRectangle X" - rounded rectangle with radius X -->
+                    <Border
+                        Stroke="Purple"
+                        StrokeThickness="1"
+                        Padding="10"
+                        StrokeShape="RoundRectangle 10">
+
+                        <!-- VerticalStackLayout is a vertical stack (Layout) that arranges elements from top to bottom -->
+                        <!-- Peadding - internal padding on all sides (to prevent elements from sticking to the edge) -->
+                        <!-- Spacing - the distance between nested elements within a VerticalStackLayout -->
+                        <VerticalStackLayout>
+                            
+                            <!-- Image Source="{Binding X}" shows the image takes the path from the X property -->
+                            <!-- HeightRequest - fixed height of the picture -->
+                            <Image
+                                Source="{Binding Icon}"
+                                HeightRequest="40"/>
+
+                            <!-- Label Text="{Binding X}" shows the text takes the path from the X property -->
+                            <!-- HorizontalOptions="Center" aligns the element to the center -->
+                            <!-- TextColor - color of the text -->
+                            <Label 
+                                Text="{Binding Name}"
+                                HorizontalOptions="Center"
+                                TextColor="Purple"/>
+                        </VerticalStackLayout>
+
+                        <!-- Recognize clicks on the border -->
+                        <Border.GestureRecognizers>
+                            
+                            <!-- TapGesturecognizer recognizes clicks on the border -->
+                            <!-- Tapped - method, which will be executed after click -->
+                            <!-- NumberOfTapsRequired - need number of clicks -->
+                            <TapGestureRecognizer
+                                Tapped="CategoryClicked"
+                                NumberOfTapsRequired="1"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Button - interactive button -->
+        <!-- Text - text on button thr button -->
+        <!-- Clicked - name of the method, which is used after click on button -->
+        <!-- HorizontalOptions="Fill" stretch the button to full width of the page -->
+        <Button
+            Text="Go back to the main page" 
+            Clicked="GotoBackToTheMainPageButtonClicked"
+            HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage> 
