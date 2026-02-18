@@ -13,7 +13,7 @@ ExpenseCounter is a mobile application for countingpersonal expenses built with 
 3) SQLite3 -SQL
 
 ## Comments:
-There are a lot of comments, which describes in detail each step to allow even beginer understant the project logic
+There are a lot of comments, which describes in detail each step to allow even beginer understant the project logic.
 
 ## Planed updates:
 1) Sorting expenses
@@ -26,4 +26,4 @@ There are a lot of comments, which describes in detail each step to allow even b
 Konstantin Musiaev
 
 ## License:
-No license, but if you use my project or its significan parts in public sphere or your progects, please, point me as an author
+No license, but if you use my project or its significan parts in public sphere or your progects, please, point me as an author.
