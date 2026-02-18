@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="ExpensesCounterMobileApplication/ExpensesCounterMobileApplication.csproj">
-    <Deploy Solution="Debug|*" />
-  </Project>
-</Solution>
