@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using ExpensesCounterMobileApplication.BasedApplicationSettings;
+using Foundation;
 
 namespace ExpensesCounterMobileApplication
 {

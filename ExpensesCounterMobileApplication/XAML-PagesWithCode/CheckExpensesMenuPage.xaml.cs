@@ -16,7 +16,7 @@ namespace ExpensesCounterMobileApplication // Conect class to the main project n
 
         public async Task LoadData() // This method loads data from the database to the XAML content page
         {
-            double totalSum = await ExpensesDataBaseScript.GetTotalSumOfAllCategoriesFromDatabase(); // Get total sum of all categories from the database
+            double totalSum = await ExpensesDatabase.GetTotalSumOfAllCategoriesFromDatabase(); // Get total sum of all categories from the database
             TotalExpensesSum.Text = $"Total sum of expenses: {totalSum.ToString()}"; // Set total sum as text at the XAML content page
         }
 

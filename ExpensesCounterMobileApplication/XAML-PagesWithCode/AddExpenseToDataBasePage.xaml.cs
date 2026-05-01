@@ -49,7 +49,7 @@ public partial class AddExpenseToDataBasePage : ContentPage // This page is resp
 
         string? comment = string.IsNullOrWhiteSpace(EnteredComment.Text) ? null : EnteredComment.Text; // comment from the XAML page // Check if it is null or not
 
-        var expense = new Expense
+        var expense = new ExpenseViewModel
 		{
 			Category = category,
 			Price = Math.Abs(price),
@@ -57,7 +57,7 @@ public partial class AddExpenseToDataBasePage : ContentPage // This page is resp
 			Comment = comment
         }; // Create Expense model to insert into the database
 
-        await ExpensesDataBaseScript.AddExpenseToDatabase(expense); // Insert data into the database
+        await ExpensesDatabase.AddExpenseToDatabase(expense); // Insert data into the database
 
         await this.DisplayAlertAsync(
 			"Success!",

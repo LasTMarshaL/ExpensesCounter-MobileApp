@@ -1,48 +1,44 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
 namespace ExpensesCounterMobileApplication; // Conect class to the main project namespace
 
-public partial class CheckExpensesCategoryHistoryPage : ContentPage // This page is responsiable for showing history of the chosen category
+public partial class CheckExpensesHistoryPage : ContentPage // This page is responsiable for showing history of the chosen category
 {
-    private string categoryNameView = ""; // Empty initialization of the categories to use in methods
-    public ObservableCollection<Expense> NeededExpensesList { get; set; } = new(); // List to collect needed expenses // ObservableCollection immediately sends data to the XAML code after eveach changing
-    private List<Expense> _allExpenses = new(); // List with all expenses // It keeps all expenses to not lose them during filtering operation
+    public ObservableCollection<ExpenseViewModel> NeededExpensesList { get; set; } = new(); // List to collect needed expenses // ObservableCollection immediately sends data to the XAML code after eveach changing
+    private List<ExpenseViewModel> _allExpenses = new(); // List with all expenses // It keeps all expenses to not lose them during filtering operation
 
-    public PriceFilter PriceFilterProperty { get; set; } = new (); // Property of the filter by price to work with Bindig
-    public DateAndTimeFilter DateAndTimeFilterProperty { get; set; } = new (); // Property of the filter by date to work with Bindig
+    public PriceFilter PriceFilterProperty { get; set; } = new(); // Property of the filter by price to work with Bindig
+    public DateAndTimeFilter DateAndTimeFilterProperty { get; set; } = new(); // Property of the filter by date to work with Bindig
 
-    public CheckExpensesCategoryHistoryPage(string categoryName) // Consturctor, which is created with class object. It is used to set basic data and make basic actions
+    public CheckExpensesHistoryPage() // Consturctor, which is created with class object. It is used to set basic data and make basic actions
     {
-		InitializeComponent(); // Connect XAML code with this class
-
-        CategoryName.Text = categoryName; // Set name of the category as a lable on the content page
-        categoryNameView = categoryName; // Set name of the category to use it in methods
+        InitializeComponent(); // Connect XAML code with this class
 
         BindingContext = this; // Is used to make XAML code see data from CategoriesViewModel class
     }
 
     enum UIState // Which element of the extra menu is opened
     {
-        None,       
-        Menu,       
-        Filter      
+        None,
+        Menu,
+        Filter
     }
     private UIState uIState = UIState.None;  // Set state "Nothing is  opened"
 
     protected override async void OnAppearing() // This method runs after loading current XAML content page (was created automaticaly) // override - change this method
     {
         base.OnAppearing(); // Save previous code of this method
-        await LoadData(categoryNameView); // Load data from the database
+        await LoadData(); // Load data from the database
 
-        await LoadDataForFilters(categoryNameView); // Load date from the database for filters
+        await LoadDataForFilters(); // Load date from the database for filters
     }
 
-    public async Task LoadData(string categoryName) // This method loads data from the database
+    public async Task LoadData() // This method loads data from the database
     {
         NeededExpensesList.Clear(); // Clear the list with showing expenses
         _allExpenses.Clear(); // Clear the list with all expenses
 
-        var expenses = await ExpensesDataBaseScript.GetExpensesOfConcreteCategoryFromDatabase(categoryName); // Get expenses of the chosen category from the database
+        var expenses = await ExpensesDatabase.GetAllExpensesFromDatabase(); // Get expenses of the chosen category from the database
         _allExpenses = expenses; // Set got expenses to the list with all expenses
 
         foreach (var expense in expenses) // Iterate got expenses one by 1 // NeededExpnsesList = expenses - it is not possible, because NeededExpensesList is ObservableCollection
@@ -51,13 +47,13 @@ public partial class CheckExpensesCategoryHistoryPage : ContentPage // This page
         }
     }
 
-    public async Task LoadDataForFilters(string categoryName) // This methods loads data for filters from the database
+    public async Task LoadDataForFilters() // This methods loads data for filters from the database
     {
-        PriceFilterProperty.PriceFrom = await ExpensesDataBaseScript.GetTheLowestPriceOfCategoryFromDatabase(categoryName); // Load initial (the lowest) price from the database
-        PriceFilterProperty.PriceTo = await ExpensesDataBaseScript.GetTheHighestPriceOfCategoryFromDatabase(categoryName); // Load final (the highest) price from the database
+        PriceFilterProperty.PriceFrom = await ExpensesDatabase.GetTheLowestPriceOfAllCategoriesFromDatabase(); // Load initial (the lowest) price from the database
+        PriceFilterProperty.PriceTo = await ExpensesDatabase.GetTheHighestPriceOfAllCategoriesFromDatabase(); // Load final (the highest) price from the database
 
-        var earliest = await ExpensesDataBaseScript.GetEarliestDateAndTimeOfCategoryFromDatabase(categoryName); // Load initial (the earliest) date and time from the database 
-        var latest = await ExpensesDataBaseScript.GetLatestDateAndTimeOfCategoryFromDatabase(categoryName); // Load final (the latest) date and time from the database 
+        var earliest = await ExpensesDatabase.GetEarliestDateAndTimeOfAllCategoriesFromDatabase(); // Load initial (the earliest) date and time from the database 
+        var latest = await ExpensesDatabase.GetLatestDateAndTimeOfAllCategoriesFromDatabase(); // Load final (the latest) date and time from the database 
 
         DateAndTimeFilterProperty.DateFrom = earliest.Date; // Get initial (the earilest) date
         DateAndTimeFilterProperty.TimeFrom = earliest.TimeOfDay; // Get final (the latest) date
@@ -73,11 +69,11 @@ public partial class CheckExpensesCategoryHistoryPage : ContentPage // This page
         if (answer) // If user confirmed removing
         {
             var button = (Button)sender; // Get clicked button
-            var expense = (Expense)button.BindingContext; // Get object Expense, which is connected with button
+            var expense = (ExpenseViewModel)button.BindingContext; // Get object Expense, which is connected with button
 
-            await ExpensesDataBaseScript.RemoveExpenseFromDatabase(expense); // Remove expense from the database
+            await ExpensesDatabase.RemoveExpenseFromDatabase(expense); // Remove expense from the database
 
-            await LoadDataForFilters(categoryNameView); // Update data for filters
+            await LoadDataForFilters(); // Update data for filters
 
             NeededExpensesList.Remove(expense); // Remove expense from collection, which is connected with XAML page
             _allExpenses.Remove(expense); // Remove expense from list with all expenses
@@ -87,10 +83,10 @@ public partial class CheckExpensesCategoryHistoryPage : ContentPage // This page
     // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
     public async void RemoveAllExpensesButtonClicked(object sender, EventArgs e) // This method removes expense from database // sender - who pressed the button, e - information of the click
     {
-        bool answer = await DisplayAlertAsync("Confirmation", $"Remove all expenses from {CategoryName.Text}?", "Yes", "No"); // Adk user to confirm removing
+        bool answer = await DisplayAlertAsync("Confirmation", $"Remove all expenses?", "Yes", "No"); // Adk user to confirm removing
         if (answer) // If user confirmed removing
         {
-            await ExpensesDataBaseScript.RemoveAllExpenses(categoryNameView); // Remove all expenses from the category
+            await ExpensesDatabase.RemoveAllExpenses(null); // Remove all expenses from the database
 
             PriceFilterProperty.PriceFrom = 0; // Recet initial (the lowest) price from the database
             PriceFilterProperty.PriceTo = 0; // Recet final (the highest) price from the database

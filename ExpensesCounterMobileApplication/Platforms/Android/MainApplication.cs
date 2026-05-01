@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Runtime;
+using ExpensesCounterMobileApplication.BasedApplicationSettings;
 
 namespace ExpensesCounterMobileApplication // Conect class to the main project namespace
 {

@@ -82,46 +82,46 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="AddExpenseToDataBasePage.xaml.cs">
+	  <Compile Update="XAML-PagesWithCode\AddExpenseToDataBasePage.xaml.cs">
 	    <DependentUpon>AddExpenseToDataBasePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="CheckExpenseCategoriesPage.xaml.cs">
+	  <Compile Update="XAML-PagesWithCode\CheckExpenseCategoriesPage.xaml.cs">
 	    <DependentUpon>CheckExpenseCategoriesPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="CheckExpensesCategoryHistoryPage.xaml.cs">
+	  <Compile Update="XAML-PagesWithCode\CheckExpensesCategoryHistoryPage.xaml.cs">
 	    <DependentUpon>CheckExpensesCategoryHistoryPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="CheckExpensesHistoryPage.xaml.cs">
+	  <Compile Update="XAML-PagesWithCode\CheckExpensesHistoryPage.xaml.cs">
 	    <DependentUpon>CheckExpensesHistoryPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AddExpensesMenuPage.xaml">
+	  <MauiXaml Update="XAML-PagesWithCode\AddExpensesMenuPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AddExpenseToDataBasePage.xaml">
+	  <MauiXaml Update="XAML-PagesWithCode\AddExpenseToDataBasePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="App.xaml">
+	  <MauiXaml Update="BasedApplicationSettings\App.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AppShell.xaml">
+	  <MauiXaml Update="BasedApplicationSettings\AppShell.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CheckExpensesCategoryHistoryPage.xaml">
+	  <MauiXaml Update="XAML-PagesWithCode\CheckExpensesCategoryHistoryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CheckExpensesHistoryPage.xaml">
+	  <MauiXaml Update="XAML-PagesWithCode\CheckExpensesHistoryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CheckExpensesMenuPage.xaml">
+	  <MauiXaml Update="XAML-PagesWithCode\CheckExpensesMenuPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MainPage.xaml">
+	  <MauiXaml Update="XAML-PagesWithCode\MainPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CheckExpenseCategoriesPage.xaml">
+	  <MauiXaml Update="XAML-PagesWithCode\CheckExpenseCategoriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Platforms\Windows\App.xaml">
