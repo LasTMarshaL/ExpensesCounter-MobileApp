@@ -1,13 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using ExpensesCounterMobileApplication.ApplicationLogic.ViewModels;
+using Microsoft.Data.Sqlite;
 using System.Globalization;
 
 namespace ExpensesCounterMobileApplication
 {
-    public class ExpensesDatabase // This class is responsiable for creating and working with data base.
+    public class ExpensesDatabase
     {
-        /// <summary>
-        /// Gets the path to the database file.
-        /// </summary>
         public static async Task<string> GetDatabasePath() 
         {
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ExpensesDataBase.db3"); 
@@ -22,8 +20,9 @@ namespace ExpensesCounterMobileApplication
             return databasePath; 
         }
 
+
         /// <summary>
-        /// Replaces the local database file with a new copy from the application package asynchronously.
+        /// Deletes the existing database file and copies a new one from the application package. ALL USER DATA WILL BE LOST!
         /// </summary>
         public async static Task UpdateDatabase()
         {
@@ -39,9 +38,6 @@ namespace ExpensesCounterMobileApplication
             await stream.CopyToAsync(fileStream); 
         }
 
-        /// <summary>
-        /// Creates the Expenses table in the database if it does not already exist.
-        /// </summary>
         public async static Task CreateTable() 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();
@@ -62,9 +58,6 @@ namespace ExpensesCounterMobileApplication
             await command.ExecuteNonQueryAsync();
         }
 
-        /// <summary>
-        /// Ads a new expense record to the database.
-        /// </summary>
         public async static Task AddExpenseToDatabase(ExpenseViewModel expense) 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath(); 
@@ -86,9 +79,7 @@ namespace ExpensesCounterMobileApplication
             await command.ExecuteNonQueryAsync();
         }
 
-        /// <summary>
-        /// Retrieves all expense records from the database.
-        /// </summary>
+
         public async static Task<List<ExpenseViewModel>> GetAllExpensesFromDatabase()
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath(); 
@@ -119,9 +110,7 @@ namespace ExpensesCounterMobileApplication
             return dataList;
         }
 
-        /// <summary>
-        /// Retrieves a list of expenses from the database that belong to the specified category.
-        /// </summary>
+
         public async static Task<List<ExpenseViewModel>> GetExpensesOfConcreteCategoryFromDatabase(string categoryName) 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath(); 
@@ -156,9 +145,8 @@ namespace ExpensesCounterMobileApplication
             return dataList;
         }
 
-        /// <summary>
-        /// Calculates the total sum of expenses for the specified category from the database.
-        /// </summary>
+
+
         public async static Task<double> GetTotalSumOfCategoryFromDatabase(string categoryName) 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();
@@ -186,9 +174,7 @@ namespace ExpensesCounterMobileApplication
             return totalSum;
         }
 
-        /// <summary>
-        /// Calculates the total sum of all expenses recorded in the database.
-        /// </summary>
+
         public async static Task<double> GetTotalSumOfAllCategoriesFromDatabase() 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath(); 
@@ -213,9 +199,7 @@ namespace ExpensesCounterMobileApplication
             return totalSum; 
         }
 
-        /// <summary>
-        /// Retrieves the lowest expense price for the specified category from the database.
-        /// </summary>
+
         public async static Task<double> GetTheLowestPriceOfCategoryFromDatabase(string categoryName) 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();  
@@ -242,9 +226,7 @@ namespace ExpensesCounterMobileApplication
             return lowestPrice; 
         }
 
-        /// <summary>
-        /// Retrieves the highest expense price for the specified category from the database.
-        /// </summary>
+
         public async static Task<double> GetTheHighestPriceOfCategoryFromDatabase(string categoryName) 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();
@@ -272,9 +254,7 @@ namespace ExpensesCounterMobileApplication
             return highestPrice;
         }
 
-        /// <summary>
-        /// Retrieves the earliest date and time of an expense for the specified category from the database.
-        /// </summary>
+
         public async static Task<DateTime> GetEarliestDateAndTimeOfCategoryFromDatabase(string categoryName) 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath(); 
@@ -302,9 +282,7 @@ namespace ExpensesCounterMobileApplication
             return earliestDate; 
         }
 
-        /// <summary>
-        /// Retrieves the most recent date and time of an expense recorded under the specified category from the database.
-        /// </summary>
+
         public async static Task<DateTime> GetLatestDateAndTimeOfCategoryFromDatabase(string categoryName) 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath(); 
@@ -332,9 +310,6 @@ namespace ExpensesCounterMobileApplication
             return latestDateAndTime;
         }
 
-        /// <summary>
-        /// Retrieves the lowest expense price across all categories from the database.
-        /// </summary>
         public async static Task<double> GetTheLowestPriceOfAllCategoriesFromDatabase() 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath(); 
@@ -359,9 +334,6 @@ namespace ExpensesCounterMobileApplication
             return lowestPrice; 
         }
 
-        /// <summary>
-        /// Retrieves the highest expense price across all categories from the database.
-        /// </summary>
         public async static Task<double> GetTheHighestPriceOfAllCategoriesFromDatabase() 
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();
@@ -386,9 +358,6 @@ namespace ExpensesCounterMobileApplication
             return highestPrice;
         }
 
-        /// <summary>
-        /// Retrieves the earliest date and time recorded in the database across all categories.
-        /// </summary>
         public async static Task<DateTime> GetEarliestDateAndTimeOfAllCategoriesFromDatabase()
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();
@@ -414,9 +383,6 @@ namespace ExpensesCounterMobileApplication
             return earliestDate; 
         }
 
-        /// <summary>
-        /// Retrieves the latest date and time recorded in the database across all categories.
-        /// </summary>
         public async static Task<DateTime> GetLatestDateAndTimeOfAllCategoriesFromDatabase()
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();
@@ -441,9 +407,7 @@ namespace ExpensesCounterMobileApplication
             return latestDateAndTime;
         }
 
-        /// <summary>
-        /// Removes the concrete expense from the database.
-        /// </summary>
+
         public async static Task RemoveExpenseFromDatabase(ExpenseViewModel removingExpense)
         {
             string databasePath = await ExpensesDatabase.GetDatabasePath();

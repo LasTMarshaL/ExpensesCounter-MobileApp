@@ -1,9 +1,8 @@
-﻿
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
-namespace ExpensesCounterMobileApplication
+namespace ExpensesCounterMobileApplication.ApplicationLogic.ViewModels
 {
-    public class ExpensesCategoriesViewModel // This class is responsiable for keeping and separate data from UI and use initialization during project build in XAML code.
+    public class ExpensesCategoriesViewModel
     {
         public ObservableCollection<ExpensesCategoryViewModel> Categories { get; set; } = new ObservableCollection<ExpensesCategoryViewModel>(); 
 

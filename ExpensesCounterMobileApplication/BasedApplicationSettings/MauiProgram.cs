@@ -2,7 +2,7 @@
 
 namespace ExpensesCounterMobileApplication.BasedApplicationSettings
 {
-    public static class MauiProgram // Main configuration point, which was created automaticly.
+    public static class MauiProgram
     {
         public static MauiApp CreateMauiApp()
         {

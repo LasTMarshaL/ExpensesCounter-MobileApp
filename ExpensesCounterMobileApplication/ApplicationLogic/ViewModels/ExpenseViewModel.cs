@@ -1,6 +1,6 @@
-﻿namespace ExpensesCounterMobileApplication
+﻿namespace ExpensesCounterMobileApplication.ApplicationLogic.ViewModels
 {
-    public class ExpenseViewModel // This class is just a model (data structure) for database.
+    public class ExpenseViewModel 
     {
         public int ID { get; set; } 
 

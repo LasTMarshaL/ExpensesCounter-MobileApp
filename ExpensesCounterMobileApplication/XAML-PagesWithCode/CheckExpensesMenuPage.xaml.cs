@@ -1,41 +1,38 @@
-namespace ExpensesCounterMobileApplication // Conect class to the main project namespace
+namespace ExpensesCounterMobileApplication
 {
-    public partial class CheckExpensesMenuPage : ContentPage // This class is responsiable for working with CheckExpensesMenuPage XAML page
+    public partial class CheckExpensesMenuPage : ContentPage 
     {
-        public CheckExpensesMenuPage() // Consturctor, which is created with class object. It is used to set basic data and make basic actions
+        public CheckExpensesMenuPage() 
         {
-            InitializeComponent(); // Connect XAML code with this class
-            OnAppearing(); // Start loading data from the database
+            InitializeComponent();
+            OnAppearing(); 
         }
 
-        protected override async void OnAppearing() // This method runs after loading current XAML content page (was created automaticaly) // override - change this method
+        protected override async void OnAppearing() 
         {
-            base.OnAppearing(); // Save previous code of this method
-            await LoadData(); // Load data from the database
+            base.OnAppearing(); 
+            await LoadData(); 
         }
 
-        public async Task LoadData() // This method loads data from the database to the XAML content page
+        public async Task LoadData()
         {
-            double totalSum = await ExpensesDatabase.GetTotalSumOfAllCategoriesFromDatabase(); // Get total sum of all categories from the database
-            TotalExpensesSum.Text = $"Total sum of expenses: {totalSum.ToString()}"; // Set total sum as text at the XAML content page
+            double totalSum = await ExpensesDatabase.GetTotalSumOfAllCategoriesFromDatabase(); 
+            TotalExpensesSum.Text = $"Total sum of expenses: {totalSum.ToString()}"; 
         }
 
-        // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-        public async void GoBackButtonClicked(object? sender, EventArgs e) // This method hoes back to the previous page // sender - who pressed the button, e - information of the click
+        public async void GoBackButtonClicked(object? sender, EventArgs e) 
         {
-            await Navigation.PopAsync(animated: false); // Go to the previous XAML page without basic animation
+            await Navigation.PopAsync(animated: false); 
         }
 
-        // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-        public async void CheckCategoriesButtonClicked(object? sender, EventArgs e) // This method goes to the CheckExpenseCategories XAML page // sender - who pressed the button, e - information of the click
+        public async void CheckCategoriesButtonClicked(object? sender, EventArgs e) 
         {
-            await Navigation.PushAsync(new CheckExpenseCategoriesPage(), animated: false); // Go to the CheckExpenseCategories XAML page without basic animation
+            await Navigation.PushAsync(new CheckExpenseCategoriesPage(), animated: false); 
         }
 
-        // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-        public async void CheckHistoryButtonClicked(object? sender, EventArgs e) // This method goes to the CheckExpenseHistory XAML page // sender - who pressed the button, e - information of the click
+        public async void CheckHistoryButtonClicked(object? sender, EventArgs e) 
         {
-            await Navigation.PushAsync(new CheckExpensesHistoryPage(), animated: false); // Go to the CheckExpenseCategories XAML page without basic animation
+            await Navigation.PushAsync(new CheckExpensesHistoryPage(), animated: false); 
         }
     }
 }

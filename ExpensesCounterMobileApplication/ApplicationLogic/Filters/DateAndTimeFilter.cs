@@ -1,81 +1,81 @@
 ﻿
 using System.ComponentModel;
 
-namespace ExpensesCounterMobileApplication // Conect class to the main project namespace
+namespace ExpensesCounterMobileApplication
 {
-    public class DateAndTimeFilter : INotifyPropertyChanged // This class is responsiable for keeping model of filter by price
+    public class DateAndTimeFilter : INotifyPropertyChanged
     {
-        private DateTime _dateFrom; // The earliest date
-        public DateTime DateFrom // Property to get acces to the earliest date
+        private DateTime _dateFrom; 
+        public DateTime DateFrom
         {
             get
             {
-                return _dateFrom; // Return the earliest date 
+                return _dateFrom;
             }
             set
             {
                 if (_dateFrom != value)
                 {
-                    _dateFrom = value; // Set the value of the earliest date as got value
-                    OnPropertyChanged(nameof(DateFrom)); // Say UI, that property was changed
+                    _dateFrom = value;
+                    OnPropertyChanged(nameof(DateFrom));
                 }
             }
         }
-        private DateTime _dateTo; // The latest date
-        public DateTime DateTo // Property to get acces to the latest date
+        private DateTime _dateTo;
+        public DateTime DateTo
         {
             get
             {
-                return _dateTo; // Return the latest date
+                return _dateTo;
             } 
             set
             {
                 if (_dateTo != value)
                 {
-                    _dateTo = value; // Set the value of the latest date as got value
-                    OnPropertyChanged(nameof(DateTo)); // Say UI, that property was changed
+                    _dateTo = value;
+                    OnPropertyChanged(nameof(DateTo));
                 }
             }
         }
 
-        private TimeSpan _timeFrom; // The earliest time
-        public TimeSpan TimeFrom // Property to get acces to the earliest time
+        private TimeSpan _timeFrom;
+        public TimeSpan TimeFrom
         {
             get
             {
-                return _timeFrom; // Return the earilest time
+                return _timeFrom;
             }
             set
             {
                 if (_timeFrom != value)
                 {
-                    _timeFrom = value; // Set the value of the earliest time as got value
-                    OnPropertyChanged(nameof(TimeFrom)); // Say UI, that property was changed
+                    _timeFrom = value;
+                    OnPropertyChanged(nameof(TimeFrom));
                 }
             }
         }
 
-        private TimeSpan _timeTo; // The latest time
-        public TimeSpan TimeTo // Property to get acces to the latest time
+        private TimeSpan _timeTo; 
+        public TimeSpan TimeTo 
         {
             get
             {
-                return _timeTo; // Return the latest time
+                return _timeTo; 
             }
             set
             {
-                if (_timeTo != value) // If the latest time is not equal to some value
+                if (_timeTo != value) 
                 {
-                    _timeTo = value; // Set the value of the latest time as got value
-                    OnPropertyChanged(nameof(TimeTo)); // Say UI, that property was changed
+                    _timeTo = value;
+                    OnPropertyChanged(nameof(TimeTo));
                 }
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged; // Event, which is executed after changing of property
-        protected void OnPropertyChanged(string propertyName) // This method sends information to UI (XAML page), that property was changed
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName) 
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); // Send information to UI (XAML page), that property was changed
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

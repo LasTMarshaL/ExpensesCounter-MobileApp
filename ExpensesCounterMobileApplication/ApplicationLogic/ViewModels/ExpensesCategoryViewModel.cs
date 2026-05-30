@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace ExpensesCounterMobileApplication;
+namespace ExpensesCounterMobileApplication.ApplicationLogic.ViewModels;
 
-public class ExpensesCategoryViewModel: INotifyPropertyChanged // This class is responsiable for keeping model of expenses category.
+public class ExpensesCategoryViewModel: INotifyPropertyChanged
 {
     public string? Name { get; set; } 
     public string? Icon { get; set; }

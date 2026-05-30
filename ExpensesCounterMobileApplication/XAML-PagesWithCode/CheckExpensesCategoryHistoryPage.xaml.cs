@@ -1,218 +1,212 @@
-﻿using System.Collections.ObjectModel;
+﻿using ExpensesCounterMobileApplication.ApplicationLogic.ViewModels;
+using System.Collections.ObjectModel;
 
-namespace ExpensesCounterMobileApplication; // Conect class to the main project namespace
+namespace ExpensesCounterMobileApplication; 
 
-public partial class CheckExpensesCategoryHistoryPage : ContentPage // This page is responsiable for showing history of the chosen category
+public partial class CheckExpensesCategoryHistoryPage : ContentPage 
 {
-    private string categoryNameView = ""; // Empty initialization of the categories to use in methods
-    public ObservableCollection<ExpenseViewModel> NeededExpensesList { get; set; } = new(); // List to collect needed expenses // ObservableCollection immediately sends data to the XAML code after eveach changing
-    private List<ExpenseViewModel> _allExpenses = new(); // List with all expenses // It keeps all expenses to not lose them during filtering operation
+    private string categoryNameView = ""; 
+    public ObservableCollection<ExpenseViewModel> NeededExpensesList { get; set; } = new(); 
+    private List<ExpenseViewModel> _allExpenses = new(); 
 
-    public PriceFilter PriceFilterProperty { get; set; } = new (); // Property of the filter by price to work with Bindig
-    public DateAndTimeFilter DateAndTimeFilterProperty { get; set; } = new (); // Property of the filter by date to work with Bindig
+    public PriceFilter PriceFilterProperty { get; set; } = new ();
+    public DateAndTimeFilter DateAndTimeFilterProperty { get; set; } = new ();
 
-    public CheckExpensesCategoryHistoryPage(string categoryName) // Consturctor, which is created with class object. It is used to set basic data and make basic actions
+    public CheckExpensesCategoryHistoryPage(string categoryName) 
     {
-		InitializeComponent(); // Connect XAML code with this class
+		InitializeComponent();
 
-        CategoryName.Text = categoryName; // Set name of the category as a lable on the content page
-        categoryNameView = categoryName; // Set name of the category to use it in methods
+        CategoryName.Text = categoryName; 
+        categoryNameView = categoryName; 
 
-        BindingContext = this; // Is used to make XAML code see data from CategoriesViewModel class
+        BindingContext = this; 
     }
 
-    enum UIState // Which element of the extra menu is opened
+    enum UIState 
     {
         None,       
         Menu,       
         Filter      
     }
-    private UIState uIState = UIState.None;  // Set state "Nothing is  opened"
+    private UIState uIState = UIState.None;
 
-    protected override async void OnAppearing() // This method runs after loading current XAML content page (was created automaticaly) // override - change this method
+    protected override async void OnAppearing()
     {
-        base.OnAppearing(); // Save previous code of this method
-        await LoadData(categoryNameView); // Load data from the database
+        base.OnAppearing();
+        await LoadData(categoryNameView); 
 
-        await LoadDataForFilters(categoryNameView); // Load date from the database for filters
+        await LoadDataForFilters(categoryNameView);
     }
 
-    public async Task LoadData(string categoryName) // This method loads data from the database
+    public async Task LoadData(string categoryName)
     {
-        NeededExpensesList.Clear(); // Clear the list with showing expenses
-        _allExpenses.Clear(); // Clear the list with all expenses
+        NeededExpensesList.Clear(); 
+        _allExpenses.Clear(); 
 
-        var expenses = await ExpensesDatabase.GetExpensesOfConcreteCategoryFromDatabase(categoryName); // Get expenses of the chosen category from the database
-        _allExpenses = expenses; // Set got expenses to the list with all expenses
+        var expenses = await ExpensesDatabase.GetExpensesOfConcreteCategoryFromDatabase(categoryName); 
+        _allExpenses = expenses; 
 
-        foreach (var expense in expenses) // Iterate got expenses one by 1 // NeededExpnsesList = expenses - it is not possible, because NeededExpensesList is ObservableCollection
+        foreach (var expense in expenses) 
         {
-            NeededExpensesList.Add(expense); // Add each expense to the list of showing expenses
+            NeededExpensesList.Add(expense); 
         }
     }
 
-    public async Task LoadDataForFilters(string categoryName) // This methods loads data for filters from the database
+    public async Task LoadDataForFilters(string categoryName) 
     {
-        PriceFilterProperty.PriceFrom = await ExpensesDatabase.GetTheLowestPriceOfCategoryFromDatabase(categoryName); // Load initial (the lowest) price from the database
-        PriceFilterProperty.PriceTo = await ExpensesDatabase.GetTheHighestPriceOfCategoryFromDatabase(categoryName); // Load final (the highest) price from the database
+        PriceFilterProperty.PriceFrom = await ExpensesDatabase.GetTheLowestPriceOfCategoryFromDatabase(categoryName); 
+        PriceFilterProperty.PriceTo = await ExpensesDatabase.GetTheHighestPriceOfCategoryFromDatabase(categoryName);
 
-        var earliest = await ExpensesDatabase.GetEarliestDateAndTimeOfCategoryFromDatabase(categoryName); // Load initial (the earliest) date and time from the database 
-        var latest = await ExpensesDatabase.GetLatestDateAndTimeOfCategoryFromDatabase(categoryName); // Load final (the latest) date and time from the database 
+        var earliest = await ExpensesDatabase.GetEarliestDateAndTimeOfCategoryFromDatabase(categoryName); 
+        var latest = await ExpensesDatabase.GetLatestDateAndTimeOfCategoryFromDatabase(categoryName); 
 
-        DateAndTimeFilterProperty.DateFrom = earliest.Date; // Get initial (the earilest) date
-        DateAndTimeFilterProperty.TimeFrom = earliest.TimeOfDay; // Get final (the latest) date
+        DateAndTimeFilterProperty.DateFrom = earliest.Date; 
+        DateAndTimeFilterProperty.TimeFrom = earliest.TimeOfDay; 
 
-        DateAndTimeFilterProperty.DateTo = latest.Date; // Get initial (the earilest) time
-        DateAndTimeFilterProperty.TimeTo = latest.TimeOfDay; // Get final (the latest) time
+        DateAndTimeFilterProperty.DateTo = latest.Date; 
+        DateAndTimeFilterProperty.TimeTo = latest.TimeOfDay; 
     }
 
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void RemoveExpenseButtonClicked(object sender, EventArgs e) // This method removes expense from database // sender - who pressed the button, e - information of the click
+    public async void RemoveExpenseButtonClicked(object sender, EventArgs e) 
     {
-        bool answer = await DisplayAlertAsync($"Confirmation", "Remove this expense?", "Yes", "No"); // Ask user to confirm removing
-        if (answer) // If user confirmed removing
+        bool answer = await DisplayAlertAsync($"Confirmation", "Remove this expense?", "Yes", "No");
+        if (answer)
         {
-            var button = (Button)sender; // Get clicked button
-            var expense = (ExpenseViewModel)button.BindingContext; // Get object Expense, which is connected with button
+            var button = (Button)sender; 
+            var expense = (ExpenseViewModel)button.BindingContext;
 
-            await ExpensesDatabase.RemoveExpenseFromDatabase(expense); // Remove expense from the database
+            await ExpensesDatabase.RemoveExpenseFromDatabase(expense); 
 
-            await LoadDataForFilters(categoryNameView); // Update data for filters
+            await LoadDataForFilters(categoryNameView); 
 
-            NeededExpensesList.Remove(expense); // Remove expense from collection, which is connected with XAML page
-            _allExpenses.Remove(expense); // Remove expense from list with all expenses
+            NeededExpensesList.Remove(expense);
+            _allExpenses.Remove(expense); 
         }
     }
 
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void RemoveAllExpensesButtonClicked(object sender, EventArgs e) // This method removes expense from database // sender - who pressed the button, e - information of the click
+    public async void RemoveAllExpensesButtonClicked(object sender, EventArgs e)
     {
-        bool answer = await DisplayAlertAsync("Confirmation", $"Remove all expenses from {CategoryName.Text}?", "Yes", "No"); // Adk user to confirm removing
-        if (answer) // If user confirmed removing
+        bool answer = await DisplayAlertAsync("Confirmation", $"Remove all expenses from {CategoryName.Text}?", "Yes", "No");
+        if (answer) 
         {
-            await ExpensesDatabase.RemoveAllExpenses(categoryNameView); // Remove all expenses from the category
+            await ExpensesDatabase.RemoveAllExpenses(categoryNameView); 
 
-            PriceFilterProperty.PriceFrom = 0; // Recet initial (the lowest) price from the database
-            PriceFilterProperty.PriceTo = 0; // Recet final (the highest) price from the database
+            PriceFilterProperty.PriceFrom = 0; 
+            PriceFilterProperty.PriceTo = 0;
 
-            DateAndTimeFilterProperty.DateFrom = DateTime.Now; // Recet initial (the earliest) date and time from the database 
-            DateAndTimeFilterProperty.DateTo = DateTime.Now; // Recet final (the latest) date and time from the database 
+            DateAndTimeFilterProperty.DateFrom = DateTime.Now; 
+            DateAndTimeFilterProperty.DateTo = DateTime.Now;
 
-            NeededExpensesList.Clear(); // Clear the list with showing expenses
-            _allExpenses.Clear(); // Clear the list all expensess
+            NeededExpensesList.Clear(); 
+            _allExpenses.Clear();
         }
     }
 
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void OpenExtraMenuButtonClicked(object sender, EventArgs e) // This method opens extra menu with filters and "total" removing // sender - who pressed the button, e - information of the click
+    public async void OpenExtraMenuButtonClicked(object sender, EventArgs e) 
     {
-        if (uIState == UIState.None) // If the extra menu is not opened
+        if (uIState == UIState.None) 
         {
-            uIState = UIState.Menu; // Set state "The extra menu is opened"
+            uIState = UIState.Menu; 
 
-            OpenFilterButton.IsVisible = true; // Show the button of the filter 
-            RemoveAllButton.IsVisible = true; // Show the button of removing all expenses
-            ResetFiltersButton.IsVisible = true; // Show the button of reseting filters
+            OpenFilterButton.IsVisible = true; 
+            RemoveAllButton.IsVisible = true;
+            ResetFiltersButton.IsVisible = true;
 
-            BackgroundOverlay.InputTransparent = false; // Make buttons inaccessible behind extra menu
+            BackgroundOverlay.InputTransparent = false; 
 
-            await BackgroundOverlay.FadeToAsync(0.75, 250); // Darken background by 75% for 250 miliseconds
+            await BackgroundOverlay.FadeToAsync(0.75, 250);
 
-            DopMenuButton.Text = "-"; // Change text on the button to "-"
+            DopMenuButton.Text = "-"; 
         }
-        else // If the extra menu is opened
+        else
         {
-            await CloseExtraMenu();// Close the extra menu
-        }
-    }
-
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void OpenFilterButtonClicked(object sender, EventArgs e) //This method opens menu of the filter by price // sender - who pressed the button, e - information of the click
-    {
-        if (uIState == UIState.Menu) // If the extra menu is opened
-        {
-            uIState = UIState.Filter; // Set state "Filter is opened"
-
-            Filter.IsVisible = true; // Show the filter by price
-
-            RemoveAllButton.IsVisible = false; // Hide the button of the menu of remiving all expenses
-            OpenFilterButton.IsVisible = false; // Show the button of the filter 
-            ResetFiltersButton.IsVisible = false; // Hide the button of the resetting the filters
+            await CloseExtraMenu();
         }
     }
 
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void ResetFiltersButtonClicked(object sender, EventArgs e) // sender - who pressed the button, e - information of the click
+   
+    public async void OpenFilterButtonClicked(object sender, EventArgs e) 
     {
-        NeededExpensesList.Clear(); // Clear the list of expenses showing on XAML page
-
-        foreach (var expense in _allExpenses) // Iterate allt expenses one by 1
+        if (uIState == UIState.Menu) 
         {
-            NeededExpensesList.Add(expense); // Add each expense to the list of showing expenses
+            uIState = UIState.Filter;
+
+            Filter.IsVisible = true; 
+
+            RemoveAllButton.IsVisible = false;
+            OpenFilterButton.IsVisible = false;
+            ResetFiltersButton.IsVisible = false; 
         }
     }
 
-    public async Task CloseExtraMenu()  // This method closes the extra menu
+    public async void ResetFiltersButtonClicked(object sender, EventArgs e)
     {
-        if (uIState == UIState.Menu) // If the extra menu is opened
+        NeededExpensesList.Clear();
+
+        foreach (var expense in _allExpenses)
         {
-            await BackgroundOverlay.FadeToAsync(0, 250); // Darken background by 0% for 250 miliseconds
-
-            BackgroundOverlay.InputTransparent = true; // Make buttons accessible behind extra menu
-
-            RemoveAllButton.IsVisible = false; // Hide the button of the menu of remiving all expenses
-            OpenFilterButton.IsVisible = false; // Show the button of the filter b
-            ResetFiltersButton.IsVisible = false; // Hide the button of the resetting the filters
-
-            DopMenuButton.Text = "+"; // Change text on the button to "-"
-
-            uIState = UIState.None; // Set state "Nothing is  opened"
-        }
-        else if (uIState == UIState.Filter) // If some filter is opened
-        {
-            Filter.IsVisible = false; // Hide the filter
-
-            RemoveAllButton.IsVisible = true; // Show the button of the menu of remiving all expenses
-            OpenFilterButton.IsVisible = true; // Show the button of the filter by
-            ResetFiltersButton.IsVisible = true; // Hide the button of the resetting the filters
-
-            uIState = UIState.Menu; // Set state "The extra menu is opened"
+            NeededExpensesList.Add(expense);
         }
     }
 
-    public async Task CloseExtraFilterMenu() // This method closes the extra menu
+    public async Task CloseExtraMenu()
     {
-        OpenFilterButton.IsVisible = false; // Hide the button of the filter
-        ResetFiltersButton.IsVisible = false; // Hide the button of reseting filters
-    }
-
-    // Reminder: var can be used, because type is known for sure
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void FilterButtonClicked(object sender, EventArgs e) // This methods filters expenses by input parameters of price // sender - who pressed the button, e - information of the click
-    {
-        DateTime from = DateAndTimeFilterProperty.DateFrom.Date + DateAndTimeFilterProperty.TimeFrom; // Unite the earliest entered date and time
-        DateTime to = DateAndTimeFilterProperty.DateTo.Date + DateAndTimeFilterProperty.TimeTo; // Unite the earliest entered date and time
-
-        var filtered = _allExpenses.AsEnumerable(); // Makes compiler see elements of this this list as link one by one 
-        filtered = filtered.Where(e => e.Price >= PriceFilterProperty.PriceFrom && e.Price <= PriceFilterProperty.PriceTo && e.DateAndTime >= from && e.DateAndTime <= to); // Get values where lymbda function returns true // => - lambda
-
-        NeededExpensesList.Clear(); // Clear list of expenses showing on XAML page
-
-        foreach (var expense in filtered) // Iterate got expenses one by 1
+        if (uIState == UIState.Menu)
         {
-            NeededExpensesList.Add(expense); // Add each expense to the list of showing expenses
+            await BackgroundOverlay.FadeToAsync(0, 250);
+
+            BackgroundOverlay.InputTransparent = true; 
+
+            RemoveAllButton.IsVisible = false;
+            OpenFilterButton.IsVisible = false;
+            ResetFiltersButton.IsVisible = false;
+
+            DopMenuButton.Text = "+";
+
+            uIState = UIState.None;
+        }
+        else if (uIState == UIState.Filter)
+        {
+            Filter.IsVisible = false;
+
+            RemoveAllButton.IsVisible = true;
+            OpenFilterButton.IsVisible = true;
+            ResetFiltersButton.IsVisible = true;
+
+            uIState = UIState.Menu; 
         }
     }
 
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void CloseExtraMenuClickedOnBackground(object sender, EventArgs e) //This method closes extra menu in case of clicks on background // sender - who pressed the button, e - information of the click
+    public async Task CloseExtraFilterMenu()
     {
-        await CloseExtraMenu(); // Close the extra menu
+        OpenFilterButton.IsVisible = false; 
+        ResetFiltersButton.IsVisible = false;
     }
 
-    // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-    public async void GoBackButtonClicked(object? sender, EventArgs e) // This method goes back to the previous page // sender - who pressed the button, e - information of the click
+    public async void FilterButtonClicked(object sender, EventArgs e) 
     {
-        await Navigation.PopAsync(animated: false); // Go to the previous XAML page without basic animation
+        DateTime from = DateAndTimeFilterProperty.DateFrom.Date + DateAndTimeFilterProperty.TimeFrom; 
+        DateTime to = DateAndTimeFilterProperty.DateTo.Date + DateAndTimeFilterProperty.TimeTo; 
+
+        var filtered = _allExpenses.AsEnumerable(); 
+        filtered = filtered.Where(e => e.Price >= PriceFilterProperty.PriceFrom && e.Price <= PriceFilterProperty.PriceTo && e.DateAndTime >= from && e.DateAndTime <= to); 
+
+        NeededExpensesList.Clear(); 
+
+        foreach (var expense in filtered) 
+        {
+            NeededExpensesList.Add(expense); 
+        }
+    }
+
+    public async void CloseExtraMenuClickedOnBackground(object sender, EventArgs e)
+    {
+        await CloseExtraMenu();
+    }
+
+    
+    public async void GoBackButtonClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PopAsync(animated: false); 
     }
 }

@@ -1,31 +1,31 @@
 ﻿
-namespace ExpensesCounterMobileApplication // Conect class to the main project namespace
+using ExpensesCounterMobileApplication.ApplicationLogic.ViewModels;
+
+namespace ExpensesCounterMobileApplication 
 {
-    public partial class AddExpensesMenuPage : ContentPage // This class is responsiable for working with AddExpensesMenuPage XAML page
+    public partial class AddExpensesMenuPage : ContentPage
     {
-        public AddExpensesMenuPage() // Consturctor, which is created with class object. It is used to set basic data and make basic actions
+        public AddExpensesMenuPage()
         {
-            InitializeComponent(); // Connect XAML code with this class
+            InitializeComponent();
 
-            BindingContext = new ExpensesCategoriesViewModel(); // Is used to make XAML code see data from CategoriesViewModel class
+            BindingContext = new ExpensesCategoriesViewModel();
         }
-
-        // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-        public async void CategoryClicked(object? sender, EventArgs e) // This method goes to the AddExpenseToDataBase XAMl page with name of the clicked category // sender - who pressed the button, e - information of the click
+        
+        public async void CategoryClicked(object? sender, EventArgs e) 
         {
-            // If category button was clicked (border type is used for buttons there) and border type is instanse of needed class
-            if (sender is Border border && border.BindingContext is ExpensesCategoryViewModel category && category.Name != null) // Such checking is used, because this method can be connected with a lot of objects
+           
+            if (sender is Border border && border.BindingContext is ExpensesCategoryViewModel category && category.Name != null) 
             {
-                string categoryName = category.Name; // Get the name of the chousen category
+                string categoryName = category.Name; 
 
-                await Navigation.PushAsync(new AddExpenseToDataBasePage(categoryName), animated: false); // Go to AddExpenseToDataBase XAML page with received name of the chousen category without basic animation
+                await Navigation.PushAsync(new AddExpenseToDataBasePage(categoryName), animated: false);
             }
         }
 
-        // Asynchronous method is used to make program wait for changing page without block of the interface (void is used for UI events, in other cases Task is used)
-        public async void GotoBackToTheMainPageButtonClicked(object? sender, EventArgs e) // This method goes  back to the previous page // sender - who pressed the button, e - information of the click
+        public async void GoBackToTheMainPageButtonClicked(object? sender, EventArgs e) 
         {
-            await Navigation.PopAsync(animated: false); // Go to prevoius XAML page without basic animation
+            await Navigation.PopAsync(animated: false);
         }
     }
 }

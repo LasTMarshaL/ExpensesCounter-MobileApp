@@ -1,6 +1,8 @@
-﻿namespace ExpensesCounterMobileApplication.Database
+﻿using ExpensesCounterMobileApplication.ApplicationLogic.ViewModels;
+
+namespace ExpensesCounterMobileApplication.Database
 {
-    public interface IExpenseDatabase //Interface for working with the databases and tests.
+    public interface IExpenseDatabase
     {
         Task<string> GetDatabasePath();
         Task UpdateDatabase();
