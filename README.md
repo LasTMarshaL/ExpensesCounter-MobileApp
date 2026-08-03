@@ -1,29 +1,32 @@
 # ExpensesCounter-MobileApp
 ExpenseCounter is a mobile application for countingpersonal expenses built with .NET MAUI. 
 
-## Features:
-1) Add and manage expenses 
-2) Calculate total spending 
-3) Categorize expenses
-4) Filtering expenses
+## 📌About
+This repository contains a mobile application for expenses counting. It demonstrates high-level development skills, object-oriented programming (OOP) principles, and basic UI/UX design. This project serves as a solid demonstration of software engineering tools and framework utilization. Expenses adding / removing / total sum calculation / filters (category / price / date&time) are realized.
 
-## Technologies:
-1) C# 
-2) .NET MAUI -MVVM pattern 
-3) SQLite3 -SQL
+## 🗂️ Repository Structure
+* **`ExpensesCounterMobileApplication/`** — Programmable logic and UI/UX source code.
+* **`Screenshots/`** — Pages screenshots.
 
-## Comments:
-There are a lot of comments, which describes in detail each step to allow even beginer understant the project logic.
+## 🔍 Short Software Overview
+* **Logic and soft section:** Code written in the C# programming language using the Visual Studio environment.
+* **UI/UX:** User interface is created using XAML markup language.
+* **Database:** SQLite is used with SQL query language for local data storage.
 
-## Planed updates:
-1) Sorting expenses
-2) Add F# functions
-3) Month analysis
-4) Select currency
-5) Select langugae
-   
-## Author:
-Konstantin Musiaev
+## 🚀 Planned (possible) updates
+* Add F# functions
+* Month analysis
+* Select currency
+* Select language
 
-## License:
-No license, but if you use my project or its significan parts in public sphere or your progects, please, point me as an author.
+## 💻 Used Technologies & Software
+* Visual Studio (Development environment)
+* .NET MAUI (Framework)
+* C# (Programmable logic)
+* XAML (UI/UX layout)
+* SQL / SQLite3 (Database / requests)
+
+## 🖼️ Screenshots
+<img width="508" height="1080" alt="MainPage" src="https://github.com/user-attachments/assets/1b3bfcf8-9a72-4dea-8ba0-cc2b0bb0d3a3" />
+<img width="507" height="1087" alt="AddExpense_SelectCategory_Page" src="https://github.com/user-attachments/assets/4ec9b7f0-21d4-4b0f-b340-6e7a9630e95e" />
+<img width="510" height="1091" alt="CheckHistory_FiltersMenu_Page" src="https://github.com/user-attachments/assets/078b6f47-6029-49e2-8e28-8b3401644740" />
