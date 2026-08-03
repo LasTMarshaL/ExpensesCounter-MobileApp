@@ -2,7 +2,7 @@
 ExpenseCounter is a mobile application for countingpersonal expenses built with .NET MAUI. 
 
 ## 📌About
-This repository contains a mobile application for expenses counting. It demonstrates high-level development skills, object-oriented programming (OOP) principles, and basic UI/UX design. This project serves as a solid demonstration of software engineering tools and framework utilization. Expenses adding / removing / total sum calculation / filters (category / price / date&time) are realized.
+This repository contains a mobile application for expenses counting. It demonstrates high-level development skills, object-oriented programming (OOP) principles, basic UI/UX design and integrated SQL database requests. This project serves as a solid demonstration of software engineering tools and framework utilization. Expenses adding / removing / total sum calculation / filters (category / price / date&time) are realized.
 
 ## 🗂️ Repository Structure
 * **`ExpensesCounterMobileApplication/`** — Programmable logic and UI/UX source code.
