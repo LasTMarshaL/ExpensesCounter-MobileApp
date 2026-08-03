@@ -8,18 +8,21 @@ This repository contains a mobile application for expenses counting. It demonstr
 * **`ExpensesCounterMobileApplication/`** — Programmable logic and UI/UX source code.
 * **`Screenshots/`** — Pages screenshots.
 
-## 🔍 Short Software Overview
+## 💻 Short Software Overview
 * **Logic and soft section:** Code written in the C# programming language using the Visual Studio environment.
 * **UI/UX:** User interface is created using XAML markup language.
-* **Database:** SQLite is used with SQL query language for local data storage.
+* **Database:** SQLite3 is used with SQL query language for local data storage.
+
+## ⚠️ Safety Notice
+*⚠️!The author bears no responsibility for the reader's actions!⚠️
 
 ## 🚀 Planned (possible) updates
-* Add F# functions
-* Month analysis
-* Select currency
-* Select language
-
-## 💻 Used Technologies & Software
+* Add F# functions.
+* Month analysis.
+* Select currency.
+* Select language.
+  
+## 🧪 Used Technologies & Software
 * Visual Studio (Development environment)
 * .NET MAUI (Framework)
 * C# (Programmable logic)
