@@ -5,8 +5,8 @@ ExpenseCounter is a mobile application for countingpersonal expenses built with 
 This repository contains a mobile application for expenses counting. It demonstrates high-level development skills, object-oriented programming (OOP) principles, basic UI/UX design and integrated SQL database requests. This project serves as a solid demonstration of software engineering tools and framework utilization. Expenses adding / removing / total sum calculation / filters (category / price / date&time) are realized.
 
 ## 🗂️ Repository Structure
-* **`ExpensesCounterMobileApplication/`** — Programmable logic and UI/UX source code.
-* **`Screenshots/`** — Pages screenshots.
+* **`ExpensesCounterMobileApplication/`** - Programmable logic and UI/UX source code.
+* **`Screenshots/`** - Pages screenshots.
 
 ## 💻 Short Software Overview
 * **Logic and soft section:** Code written in the C# programming language using the Visual Studio environment.
@@ -14,7 +14,7 @@ This repository contains a mobile application for expenses counting. It demonstr
 * **Database:** SQLite3 is used with SQL query language for local data storage.
 
 ## ⚠️ Safety Notice
-*⚠️!The author bears no responsibility for the reader's actions!⚠️
+* ⚠️!The author bears no responsibility for the reader's actions!⚠️
 
 ## 🚀 Planned (possible) updates
 * Add F# functions.
